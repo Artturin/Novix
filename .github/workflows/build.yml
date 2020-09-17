@@ -13,23 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: cachix/install-nix-action@5a2cbacfff3a1aea97c0b90a65faa80490f50e60
+    - uses: cachix/install-nix-action@v10
       with:
         nix_path: nixpkgs=channel:nixos-unstable
-        extra_nix_config: |
-          {
-            pkgs ? import <nixpkgs> {
-              crossSystem = {
-                config = "i686-elf";
-              };
-            }
-          }:
-
-          pkgs.mkShell {
-            nativeBuildInputs = with pkgs.buildPackages.buildPackages; [ mtools xorriso nasm binutils pkgs.buildPackages.clang grub2 qemu ];
-          }
-    - name: Nix Shell
-      uses: workflow/nix-shell-action@v1
-      with:
-        packages: bash,mtools,xorriso,nasm,binutils,pkgs.buildPackages.clang,grub2,qemu
-        script: make
+    - name: Build
+      run: nix-shell --run "make $@"
