@@ -19,5 +19,5 @@ jobs:
     - name: Nix Shell
       uses: workflow/nix-shell-action@v1
       with:
-        packages: bash, mtools, xorriso, nasm, binutils, pkgs.buildPackages.clang, grub2, qemu
+        packages: bash,mtools,xorriso,nasm,binutils,pkgs.buildPackages.clang,grub2,qemu
         script: make
